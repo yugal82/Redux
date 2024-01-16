@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { todoActions } from '../store/todoSlice';
 
 const AddTodo = () => {
-    const addTodoHandler = () => {
+    const dispacth = useDispatch();
 
+    const [inputVal, setInputVal] = useState('');
+    const addTodoHandler = (e) => {
+        e.preventDefault();
+
+        dispacth(todoActions.addTaks({text: inputVal}));
+        setInputVal('');
     };
     return (
-        <form onSubmit={addTodoHandler} className="space-x-3 mt-12">
+        <form onSubmit={(e) => addTodoHandler(e)} className="space-x-3 mt-12">
             <input
                 type="text"
                 className="bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 placeholder="Enter a Todo..."
+                value={inputVal}
+                onChange={(e) => setInputVal(e.target.value)}
             />
             <button
                 type="submit"
